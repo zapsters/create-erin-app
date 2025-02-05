@@ -29,4 +29,4 @@ This module will create a simple app setup with a custom name. When ran, it will
   - An index.js
   - A readme.md
 - Also, as a little bonus, you will have the option to add a special gift to your directory. ⊂◉‿◉ つ
-  - <details><summary>Expand to spoil the surprise,,,</summary>It creates a little gif.</details>
+  - <details><summary>Expand to spoil the surprise,,,</summary>It creates a little gif using binary64 decoding.</details>
