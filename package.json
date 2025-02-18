@@ -9,7 +9,6 @@
   "files": [
     "index.js",
     "readme.md",
-    "data.js",
     "lib/"
   ],
   "scripts": {

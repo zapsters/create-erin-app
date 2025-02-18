@@ -2,7 +2,6 @@
 const path = require("path");
 const fs = require("fs");
 const readline = require("readline");
-const giftBase64 = require("./data.js");
 
 const app = readline.createInterface({
   output: process.stdout,
@@ -38,37 +37,55 @@ app.question("Name of project: ", function (projectName) {
     fs.mkdirSync(srcDirectory);
   }
 
-  app.question("Include a functions directory? (Y/n): ", function (response) {
-    if (response.toUpperCase() == "Y") {
+  createPrompt(
+    "Include a functions directory?",
+    function () {
       if (!fs.existsSync(functionsDirectory)) {
         fs.mkdirSync(functionsDirectory);
       }
       const webfileLibRef = path.join(__dirname, "lib/webfile.txt");
       fs.writeFileSync(path.join(functionsDirectory, "webfile.js"), fs.readFileSync(webfileLibRef));
-
+    },
+    function () {},
+    function () {
       const readmeFile = path.join(projectDirectory, "readme.md");
       fs.writeFileSync(readmeFile, `## ${projectName} \n\n Created with Create-Erin-App`);
-    }
 
-    fs.writeFileSync(path.join(projectDirectory, "index.js"), `// Project ${projectName}`);
+      fs.writeFileSync(path.join(projectDirectory, "index.js"), `// Project ${projectName}`);
 
-    app.question(
-      "Do you want a special gift included with your project? (Y/n): ",
-      function (response) {
-        if (response.toUpperCase() == "Y") {
-          var buf = Buffer.from(giftBase64, "base64");
-          fs.writeFileSync(giftDirectory, buf, console.log("worked"));
+      createPrompt(
+        "Do you want a special gift included with your project?",
+        function () {
+          const giftLibRef = path.join(__dirname, "lib/gift.gif");
+          fs.writeFileSync(path.join(projectDirectory, "gift.gif"), fs.readFileSync(giftLibRef));
 
           console.log("\nGift Included. ⊂◉‿◉つ\n");
-        } else {
+        },
+        function () {
           console.log("\n Gift Denied. (˃̣̣̥⌓˂̣̣̥⋆) \n");
+        },
+        function () {
+          quitApp();
         }
-        quitApp();
-      }
-    );
-  });
+      );
+    }
+  );
 });
 
 function quitApp() {
   app.close();
+}
+
+function createPrompt(text, callbackConfirm, callbackDeny, callbackAfter) {
+  app.question(`${text} (Y/n): `, function (response) {
+    if (response.toUpperCase() == "Y") {
+      callbackConfirm();
+      callbackAfter();
+    } else if (response.toUpperCase() == "N") {
+      callbackDeny();
+      callbackAfter();
+    } else {
+      createGiftPrompt(callback);
+    }
+  });
 }
