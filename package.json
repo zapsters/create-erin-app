@@ -9,7 +9,8 @@
   "files": [
     "index.js",
     "readme.md",
-    "data.js"
+    "data.js",
+    "lib/"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
