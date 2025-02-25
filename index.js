@@ -43,10 +43,14 @@ app.question("Name of project: ", function (projectName) {
       if (!fs.existsSync(functionsDirectory)) {
         fs.mkdirSync(functionsDirectory);
       }
+
       const webfileLibRef = path.join(__dirname, "lib/webfile.txt");
       fs.writeFileSync(path.join(functionsDirectory, "webfile.js"), fs.readFileSync(webfileLibRef));
+      console.log("\nFunction Folder Included. ⊂◉‿◉つ\n");
     },
-    function () {},
+    function () {
+      console.log("\n Function Folder Denied. (˃̣̣̥⌓˂̣̣̥⋆) \n");
+    },
     function () {
       const readmeFile = path.join(projectDirectory, "readme.md");
       fs.writeFileSync(readmeFile, `## ${projectName} \n\n Created with Create-Erin-App`);
@@ -78,14 +82,12 @@ function quitApp() {
 
 function createPrompt(text, callbackConfirm, callbackDeny, callbackAfter) {
   app.question(`${text} (Y/n): `, function (response) {
-    if (response.toUpperCase() == "Y") {
-      callbackConfirm();
-      callbackAfter();
-    } else if (response.toUpperCase() == "N") {
+    if (response.toUpperCase() == "N") {
       callbackDeny();
       callbackAfter();
     } else {
-      createGiftPrompt(callback);
+      callbackConfirm();
+      callbackAfter();
     }
   });
 }
