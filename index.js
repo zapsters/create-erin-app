@@ -23,19 +23,23 @@ app.question("Name of project: ", function (projectName) {
     return;
   }
 
-  const distDirectory = path.join(projectDirectory, "dist");
-  const srcDirectory = path.join(projectDirectory, "src");
-  const giftDirectory = path.join(projectDirectory, "gift.gif");
+  const viewsDirectory = path.join(projectDirectory, "views");
 
   if (!fs.existsSync(projectDirectory)) {
     fs.mkdirSync(projectDirectory);
   }
-  if (!fs.existsSync(distDirectory)) {
-    fs.mkdirSync(distDirectory);
+  if (!fs.existsSync(viewsDirectory)) {
+    fs.mkdirSync(viewsDirectory);
   }
-  if (!fs.existsSync(srcDirectory)) {
-    fs.mkdirSync(srcDirectory);
-  }
+
+  fs.writeFileSync(
+    path.join(viewsDirectory, "index.html"),
+    fs.readFileSync(path.join(__dirname, "lib/index.txt"))
+  );
+  fs.writeFileSync(
+    path.join(viewsDirectory, "404.html"),
+    fs.readFileSync(path.join(__dirname, "lib/404.txt"))
+  );
 
   createPrompt(
     "Include a functions directory?",
@@ -53,9 +57,16 @@ app.question("Name of project: ", function (projectName) {
     },
     function () {
       const readmeFile = path.join(projectDirectory, "readme.md");
-      fs.writeFileSync(readmeFile, `## ${projectName} \n\n Created with Create-Erin-App`);
+      fs.writeFileSync(
+        readmeFile,
+        `## ${projectName} \n\n ### Live Link \n [Home Page](https://google.com) \n\n TODO: add node/nodemon server.js to package.json scripts \n\n Created with Create-Erin-App `
+      );
+      const githubLibRef = path.join(__dirname, "lib/gitignore.txt");
+      const gitIgnoreFile = path.join(projectDirectory, ".gitignore");
+      fs.writeFileSync(gitIgnoreFile, fs.readFileSync(githubLibRef));
 
-      fs.writeFileSync(path.join(projectDirectory, "index.js"), `// Project ${projectName}`);
+      const serverLibRef = path.join(__dirname, "lib/server.txt");
+      fs.writeFileSync(path.join(projectDirectory, "server.js"), fs.readFileSync(serverLibRef));
 
       createPrompt(
         "Do you want a special gift included with your project?",

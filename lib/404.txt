@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      /* Reset */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      p {
+        margin-bottom: 16px;
+      }
+
+      /* End Reset */
+
+      nav {
+        height: 50px;
+        background-color: #000;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        font-family: monospace;
+        font-size: 18px;
+      }
+
+      nav a {
+        text-decoration: none;
+        color: #fff;
+      }
+      nav a:hover {
+        text-decoration: underline;
+      }
+    </style>
+    <title>Week 5 - Web Server</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <nav>
+      <a href="\">Home</a>
+      <a href="\about">About</a>
+    </nav>
+    <div id="content">
+      <h1>ERROR 404</h1>
+      <p>Page Not Found</p>
+    </div>
+  </body>
+</html>
