@@ -1,6 +1,6 @@
 {
   "name": "create-erin-app",
-  "version": "3.3.0",
+  "version": "4.0.0",
   "description": "Create an erin app!",
   "main": "index.js",
   "bin": {
