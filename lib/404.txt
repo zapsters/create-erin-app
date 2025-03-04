@@ -49,13 +49,10 @@
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
-    <nav>
-      <a href="\">Home</a>
-      <a href="\about">About</a>
-    </nav>
     <div id="content">
       <h1>ERROR 404</h1>
       <p>Page Not Found</p>
+      <a href="\">Return Home</a>
     </div>
   </body>
 </html>

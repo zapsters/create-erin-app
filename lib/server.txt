@@ -4,39 +4,34 @@ const path = require("path");
 
 const WebFile = require("./functions/webfile");
 
-/**
- *
- * @param {http.ClientRequest} req
- * @param {http.ServerResponse} res
- */
 function app(req, res) {
-  const fileReq = new WebFile(req.url);
-  const filePath = path.join(__dirname, "views/", fileReq.filename);
+  const reqWebFile = new WebFile(req.url);
+  // const homepageUrls = ["/", "/index.html"];
 
-  const contentType =
-    fs.existsSync(filePath) && fileReq.getExtension() ? fileReq.getMimeType() : "text/html";
-
-  let filePathToUse = "";
-
-  if (fs.existsSync(filePath) && fileReq.getExtension()) {
-    filePathToUse = filePath;
-  } else if (!fileReq.getExtension() && fs.existsSync(path.join(filePath, "index.html"))) {
-    filePathToUse = path.join(filePath, "index.html");
-    // if (fs.existsSync(checkHtml)) filePathToUse = checkHtml;
+  if (fs.existsSync(reqWebFile.reqResource)) {
+    res.writeHead(200, { "Content-Type": reqWebFile.getMimeType() });
+    res.write(fs.readFileSync(reqWebFile.reqResource));
   } else {
-    filePathToUse = path.join(__dirname, "view/404.html");
-    res.writeHead(404, { "content-type": "text/html" });
-    res.write(fs.readFileSync(path.join(__dirname, "views/404.html")));
-    res.end();
-    return;
+    res.writeHead(404, { "Content-Type": "text/html" });
+    res.write(fs.readFileSync(WebFile.errorPage));
   }
 
-  res.writeHead(200, { "Content-Type": contentType });
-  res.write(fs.readFileSync(filePathToUse));
+  //   res.writeHead(200, { "Content-Type": reqWebFile.getMimeType() });
+
+  //   if (homepageUrls.includes(req.url)) {
+  //     res.write(fs.readFileSync(path.join(__dirname, "views/index.html")));
+  //   } else if (req.url === "/css/style.css") {
+  //     res.write(fs.readFileSync(path.join(__dirname, "views/css/style.css")));
+  //   } else {
+  //     res.write("<h1>Alligator</h1>");
+  //   }
+
   res.end();
 }
 
 const server = http.createServer(app);
-const port = process.env.PORT || 3000;
+
+const port = process.env.PORT || 3445;
 server.listen(port);
-console.log(`Server live at http://127.0.0.1:${port}`);
+
+console.log(`http://localhost:${port}`);

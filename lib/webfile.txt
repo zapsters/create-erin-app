@@ -1,32 +1,38 @@
 const path = require("path");
+const mime = require("mime-types");
 
 class WebFile {
-  filename = "";
-
   static mimeTypes = {
-    ".html": "text/html",
     ".css": "text/css",
+    ".html": "text/html",
     ".js": "text/javascript",
     ".json": "application/json",
-    ".txt": "text/plain",
-    ".png": "image/png",
-    ".jpeg": "image/jpeg",
-    ".jpg": "image/jpeg",
-    ".mp3": "audio/mpeg",
-    ".mp4": "audio/mp4",
   };
 
-  constructor(filename) {
-    this.filename = filename;
-  }
+  reqDetails = {};
+  reqUrl = {};
+  reqResource = "";
 
-  getExtension() {
-    return path.extname(this.filename);
+  static errorPage = path.join(__dirname, "../views/404.html");
+
+  constructor(reqUrl) {
+    this.reqUrl = reqUrl;
+
+    this.reqDetails = path.parse(reqUrl);
+    const reqResourcePath = path.join(__dirname, "../views", reqUrl);
+
+    if (this.reqDetails.ext) {
+      this.reqResource = reqResourcePath;
+    } else if (this.reqDetails.base) {
+      this.reqResource = reqResourcePath + ".html";
+    } else {
+      this.reqResource = reqResourcePath + "index.html";
+    }
   }
 
   getMimeType() {
-    const fileExtension = this.getExtension();
-    return WebFile.mimeTypes[fileExtension] || "text/plain";
+    const reqExt = this.reqResource;
+    return mime.lookup(reqExt) || "text/plain";
   }
 }
 
